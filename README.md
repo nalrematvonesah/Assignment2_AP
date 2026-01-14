@@ -8,8 +8,8 @@ It is written in **academic + industry style**, easy to defend, and matches your
 
 **Course:** Advanced Programming 1  
 **Assignment:** 2  
-**Student:** Taubakabyl Nurlybek  
-**Group:** SE2499  
+**Student:** Tamerlan Khassenov  
+**Group:** SE2416  
 
 ---
 
