@@ -21,6 +21,8 @@ func main() {
 	mux.HandleFunc("DELETE /data/{key}", srv.DeleteData)
 	mux.HandleFunc("GET /stats", srv.StatsHandler)
 
+	mux.Handle("/", http.FileServer(http.Dir("./web")))
+
 	httpServer := &http.Server{
 		Addr:    ":8080",
 		Handler: mux,

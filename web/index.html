@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Assignment 2 – Test Client</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 700px;
+      margin: 40px auto;
+    }
+    input, button {
+      padding: 8px;
+      margin: 4px 0;
+      width: 100%;
+    }
+    button {
+      cursor: pointer;
+    }
+    pre {
+      background: #f4f4f4;
+      padding: 10px;
+    }
+    section {
+      margin-bottom: 30px;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Assignment 2 – API Tester</h1>
+
+<section>
+  <h3>Add Data (POST /data)</h3>
+  <input id="key" placeholder="Key" />
+  <input id="value" placeholder="Value" />
+  <button onclick="postData()">Send</button>
+</section>
+
+<section>
+  <h3>Get All Data (GET /data)</h3>
+  <button onclick="getData()">Refresh</button>
+  <pre id="dataOutput"></pre>
+</section>
+
+<section>
+  <h3>Delete Key (DELETE /data/{key})</h3>
+  <input id="deleteKey" placeholder="Key to delete" />
+  <button onclick="deleteData()">Delete</button>
+</section>
+
+<section>
+  <h3>Server Stats (GET /stats)</h3>
+  <button onclick="getStats()">Load Stats</button>
+  <pre id="statsOutput"></pre>
+</section>
+
+<script>
+  async function postData() {
+    const key = document.getElementById("key").value;
+    const value = document.getElementById("value").value;
+
+    if (!key || !value) {
+      alert("Key and value required");
+      return;
+    }
+
+    await fetch("/data", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ [key]: value })
+    });
+
+    getData();
+  }
+
+  async function getData() {
+    const res = await fetch("/data");
+    const data = await res.json();
+    document.getElementById("dataOutput").textContent =
+      JSON.stringify(data, null, 2);
+  }
+
+  async function deleteData() {
+    const key = document.getElementById("deleteKey").value;
+    if (!key) return;
+
+    await fetch(`/data/${key}`, { method: "DELETE" });
+    getData();
+  }
+
+  async function getStats() {
+    const res = await fetch("/stats");
+    const data = await res.json();
+    document.getElementById("statsOutput").textContent =
+      JSON.stringify(data, null, 2);
+  }
+</script>
+
+</body>
+</html>
